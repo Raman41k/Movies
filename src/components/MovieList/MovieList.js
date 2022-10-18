@@ -15,8 +15,6 @@ const MovieList = () => {
         dispatch(movieActions.getAllMovie())
     }, []);
 
-    console.log(movies)
-
     return (
         <div className={'containerMovie'}>
             {
@@ -24,7 +22,7 @@ const MovieList = () => {
                     ?
                     <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/></div>
                     :
-                    movies.map(movie => <MovieCard key={movie.id} movie={movie}/>)
+                    movies?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
             }
         </div>
     );
