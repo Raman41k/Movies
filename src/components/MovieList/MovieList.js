@@ -1,30 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {BarLoader} from "react-spinners";
+import {useDispatch, useSelector} from "react-redux";
 
-import {movieService} from "../../services";
+import {movieActions} from "../../redux";
 import {MovieCard} from "../Movie/MovieCard";
-import '../../index.css';
 
 const MovieList = () => {
 
-    const [movies,setMovies] = useState([]);
-    const [loading,setLoading] = useState(false);
+    const {movies,loading} = useSelector(state => state.movieReducer);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        movieService.getAll().then(res => {
-            setMovies(res.data.results)
-            setLoading(true)
-        })
-    },[]);
+        dispatch(movieActions.getAllMovie())
+    }, []);
+
+    console.log(movies)
 
     return (
         <div className={'containerMovie'}>
             {
-               loading ?  movies.map(movie =>  {
-                   return <MovieCard key={movie.id} movie={movie} />
-               }):  <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/></div>
+                loading
+                    ?
+                    <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/></div>
+                    :
+                    movies.map(movie => <MovieCard key={movie.id} movie={movie}/>)
             }
-
         </div>
     );
 };

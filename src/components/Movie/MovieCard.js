@@ -4,6 +4,7 @@ import {photosImages} from "../../configs";
 import '../../index.css';
 
 const MovieCard = ({movie}) => {
+
     return (
         <div className={"containerMovieCard"}>
             {

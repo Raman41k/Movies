@@ -3,18 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
 
 import '../../index.css';
+import {Search} from "../SearchMovie/Search";
 
 const Header = ({toggleTheme}) => {
 
     return (
         <div className={'wrapper'}>
+
             <div>
                <FontAwesomeIcon className={'icon'} icon={faLightbulb} onClick={toggleTheme}></FontAwesomeIcon>
             </div>
 
-            <div>
-                <input type="text" placeholder={"Search..."}/>
-            </div>
+            <Search/>
 
             <div>
                 <select>

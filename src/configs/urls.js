@@ -3,6 +3,7 @@ const photosImages = 'https://image.tmdb.org/t/p/w500'
 
 const urls = {
     movies: '/discover/movie',
+    search: '/search/movie?query='
 }
 
 export {
