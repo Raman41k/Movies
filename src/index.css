@@ -27,21 +27,62 @@ code {
 }
 
 .containerMovieCard{
+  width: 550px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   border-radius: 30px;
   background: coral;
   padding: 10px;
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   box-sizing: border-box;
+}
+
+.containerMovieCard h2{
+  max-width: 100%;
+  text-align: center;
 }
 
 .containerMovieCard img {
   border-radius: 30px;
+  height: 70%;
 }
 
-/*Darl Theme*/
+.no-photo{
+  border-radius: 30px;
+  height: 70%;
+  width: 100%;
+}
+
+.genre_container{
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
+  margin: 5px 0;
+}
+
+ .star{
+   background: #2d2a2a;
+}
+
+ .pag-wrap{
+   width: 500px;
+   margin: 20px auto;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .pag-btn{
+   border: 1px solid #ddd;
+   padding: 15px 40px;
+   box-sizing: border-box;
+   border-radius: 10px;
+ }
+
+/*Dark Theme*/
 
 #dark{
   background: #2d2a2a;
@@ -57,6 +98,7 @@ code {
 
 #dark .containerMovieCard{
   background: darkslategray;
+  transition: 1s;
 }
 
 #dark .wrapper{
@@ -74,6 +116,11 @@ code {
 #light{
   color: black;
   background: silver;
+  transition: 1s;
+}
+
+#light .containerMovieCard{
+  background: coral;
   transition: 1s;
 }
 

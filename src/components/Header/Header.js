@@ -1,9 +1,10 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faLightbulb} from '@fortawesome/free-solid-svg-icons';
 
 import '../../index.css';
 import {Search} from "../SearchMovie/Search";
+import {Genres} from "../Genres/Genres";
 
 const Header = ({toggleTheme}) => {
 
@@ -11,19 +12,12 @@ const Header = ({toggleTheme}) => {
         <div className={'wrapper'}>
 
             <div>
-               <FontAwesomeIcon className={'icon'} icon={faLightbulb} onClick={toggleTheme}></FontAwesomeIcon>
+                <FontAwesomeIcon className={'icon'} icon={faLightbulb} onClick={toggleTheme}></FontAwesomeIcon>
             </div>
 
             <Search/>
 
-            <div>
-                <select>
-                    <option disabled value="volvo">Genres</option>
-                    <option value="1">1</option>
-                    <option value="2">1</option>
-                    <option value="3">1</option>
-                </select>
-            </div>
+            <Genres/>
 
         </div>
     );
