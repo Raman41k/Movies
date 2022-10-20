@@ -5,8 +5,10 @@ import {movieService} from "../../../services";
 const initialState = {
     movies: [],
     genres: [],
+    currentGenres: [],
     loading: false,
-    page: 1
+    page: 1,
+    show: false
 }
 
 const getAllMovie = createAsyncThunk(
@@ -45,15 +47,42 @@ const getAllGenres = createAsyncThunk(
     }
 );
 
+const searchByGenre = createAsyncThunk(
+    'movieSlice/searchByGenre',
+    async (genre, {rejectWithValue}) => {
+        try {
+            const {data} = await movieService.searchByGenre(genre)
+            console.log(data)
+            return data;
+        } catch (e) {
+            rejectWithValue(e.response.data)
+        }
+    }
+)
+
 const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
     reducers: {
         nextPage: (state, action) => {
             if (state.page < 500) state.page += action.payload;
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
         },
         prevPage: (state, action) => {
             if (state.page > 1) state.page -= action.payload;
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        },
+        show: (state, action) => {
+            state.show = action.payload;
+        },
+        selectGenre: (state, action) => {
+            state.currentGenres.push(action.payload);
         }
     },
     extraReducers: builder =>
@@ -75,17 +104,26 @@ const movieSlice = createSlice({
             .addCase(getAllGenres.fulfilled, (state, action) => {
                 state.genres = action.payload;
             })
-
+            .addCase(searchByGenre.fulfilled, (state, action) => {
+                state.movies = action.payload.results;
+                state.loading = false;
+            })
+            .addCase(searchByGenre.pending, (state) => {
+                state.loading = true;
+            })
 });
 
-const {reducer: movieReducer, actions: {nextPage, prevPage}} = movieSlice;
+const {reducer: movieReducer, actions: {nextPage, prevPage, show,selectGenre}} = movieSlice;
 
 const movieActions = {
     getAllMovie,
     searchMovie,
     getAllGenres,
     nextPage,
-    prevPage
+    prevPage,
+    show,
+    searchByGenre,
+    selectGenre
 }
 
 export {

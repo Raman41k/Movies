@@ -3,31 +3,36 @@ import {BarLoader} from "react-spinners";
 import {useDispatch, useSelector} from "react-redux";
 
 import {movieActions} from "../../redux";
-import {MovieCard} from "../Movie/MovieCard";
+import {MovieCard} from "../MovieCard/MovieCard";
 import {Pagination} from "../Pagination/Pagination";
 
 const MovieList = () => {
 
-    const {movies,loading,page} = useSelector(state => state.movieReducer);
+    const {movies, loading, page, currentGenres} = useSelector(state => state.movieReducer);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(movieActions.getAllMovie(page))
+        if (!currentGenres) {
+            dispatch(movieActions.searchByGenre(currentGenres))
+        } else {
+            dispatch(movieActions.getAllMovie(page))
+        }
     }, [page]);
 
     return (
         <div>
-            <Pagination/>
             <div className={'containerMovie'}>
                 {
                     loading
                         ?
-                        <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/></div>
+                        <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/>
+                        </div>
                         :
                         movies?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
                 }
             </div>
+            <Pagination/>
         </div>
     );
 };

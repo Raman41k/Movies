@@ -1,5 +1,5 @@
 export * from './Header/Header'
-export * from './Movie/MovieCard'
+export * from './MovieCard/MovieCard'
 export * from './MovieList/MovieList'
 export * from './SearchMovie/Search'
 export * from './Genres/Genres'

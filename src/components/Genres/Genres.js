@@ -8,18 +8,35 @@ const Genres = () => {
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(movieActions.getAllGenres())
-    },[])
+    }, [])
 
     return (
-        <select>
-            <option value="">Genres</option>
-            {
-                genres.genres?.map(genre => <option value={genre.name} key={genre.id}>{genre.name}</option>)
-            }
-        </select>
-    );
+        <div>
+            <div>
+                {
+                    genres.genres?.map(genre =>  <div key={genre.id}>
+                        <label>
+                            <input
+                                type="checkbox"
+                                value={genre.name}
+                                name={genre.name}
+                                onClick={()=> dispatch(movieActions.selectGenre(genre.id))}
+                            />
+                            {genre.name}
+                        </label>
+                    </div>)
+                }
+
+            </div>
+                <button onClick={() => dispatch(movieActions.show(false))}>Hide</button>
+        </div>
+);
 };
 
-export {Genres};
+export
+    {
+        Genres
+    }
+;

@@ -4,9 +4,14 @@ import {faLightbulb} from '@fortawesome/free-solid-svg-icons';
 
 import '../../index.css';
 import {Search} from "../SearchMovie/Search";
-import {Genres} from "../Genres/Genres";
+import {useDispatch, useSelector} from "react-redux";
+import {movieActions} from "../../redux";
 
 const Header = ({toggleTheme}) => {
+    
+    const {show} = useSelector(state => state.movieReducer);
+
+    const dispatch = useDispatch();
 
     return (
         <div className={'wrapper'}>
@@ -17,10 +22,10 @@ const Header = ({toggleTheme}) => {
 
             <Search/>
 
-            <Genres/>
+            <button onClick={() => dispatch(movieActions.show(!show))}>Genres</button>
 
         </div>
     );
-};
+}
 
 export {Header};

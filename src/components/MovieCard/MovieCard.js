@@ -10,7 +10,7 @@ const MovieCard = ({movie}) => {
     const {genres} = useSelector(state => state.movieReducer);
 
     const findGenre = (id) =>{
-        const genre =  genres.genres.find(value => value.id ===id)
+        const genre =  genres.genres?.find(value => value.id ===id)
         return genre?.name
     }
 
