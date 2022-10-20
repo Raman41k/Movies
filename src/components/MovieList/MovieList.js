@@ -8,20 +8,27 @@ import {Pagination} from "../Pagination/Pagination";
 
 const MovieList = () => {
 
-    const {movies, loading, page, currentGenres} = useSelector(state => state.movieReducer);
+    const {movies, loading, page,currentGenres} = useSelector(state => state.movieReducer);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!currentGenres) {
-            dispatch(movieActions.searchByGenre(currentGenres))
+        if (currentGenres) {
+            dispatch(movieActions.searchByGenre({currentGenres}))
         } else {
             dispatch(movieActions.getAllMovie(page))
         }
-    }, [page]);
+    },[page]);
+
+    // if (currentGenres) {
+    //     dispatch(movieActions.searchByGenre(currentGenres))
+    // } else {
+    //     dispatch(movieActions.getAllMovie(page))
+    // }
 
     return (
         <div>
+            <Pagination/>
             <div className={'containerMovie'}>
                 {
                     loading
@@ -32,7 +39,6 @@ const MovieList = () => {
                         movies?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
                 }
             </div>
-            <Pagination/>
         </div>
     );
 };

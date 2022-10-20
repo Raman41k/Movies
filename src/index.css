@@ -59,6 +59,7 @@ code {
   width: 90%;
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
   align-items: stretch;
   margin: 5px 0;
 }

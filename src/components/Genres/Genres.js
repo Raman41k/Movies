@@ -12,11 +12,13 @@ const Genres = () => {
         dispatch(movieActions.getAllGenres())
     }, [])
 
+    console.log(genres)
+
     return (
         <div>
             <div>
                 {
-                    genres.genres?.map(genre =>  <div key={genre.id}>
+                    genres?.genres?.map(genre =>  <div key={genre.id}>
                         <label>
                             <input
                                 type="checkbox"

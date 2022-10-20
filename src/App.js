@@ -7,8 +7,6 @@ export const ThemeContext = createContext(null)
 
 function App() {
 
-    //https://api.themoviedb.org/3/discover/movie?with_genres=id
-
     const {show} = useSelector(state => state.movieReducer);
 
     const [theme, setTheme] = useState("light");

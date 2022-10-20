@@ -8,7 +8,7 @@ const initialState = {
     currentGenres: [],
     loading: false,
     page: 1,
-    show: false
+    show: true,
 }
 
 const getAllMovie = createAsyncThunk(
@@ -52,7 +52,6 @@ const searchByGenre = createAsyncThunk(
     async (genre, {rejectWithValue}) => {
         try {
             const {data} = await movieService.searchByGenre(genre)
-            console.log(data)
             return data;
         } catch (e) {
             rejectWithValue(e.response.data)
@@ -68,14 +67,14 @@ const movieSlice = createSlice({
             if (state.page < 500) state.page += action.payload;
             window.scrollTo({
                 top: 0,
-                behavior: "smooth"
+                behavior: 'smooth'
             });
         },
         prevPage: (state, action) => {
             if (state.page > 1) state.page -= action.payload;
             window.scrollTo({
                 top: 0,
-                behavior: "smooth"
+                behavior: 'smooth'
             });
         },
         show: (state, action) => {
@@ -83,7 +82,7 @@ const movieSlice = createSlice({
         },
         selectGenre: (state, action) => {
             state.currentGenres.push(action.payload);
-        }
+        },
     },
     extraReducers: builder =>
         builder
@@ -103,6 +102,7 @@ const movieSlice = createSlice({
             })
             .addCase(getAllGenres.fulfilled, (state, action) => {
                 state.genres = action.payload;
+                state.loading = false;
             })
             .addCase(searchByGenre.fulfilled, (state, action) => {
                 state.movies = action.payload.results;
