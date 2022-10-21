@@ -12,8 +12,6 @@ const Genres = () => {
         dispatch(movieActions.getAllGenres())
     }, [])
 
-    console.log(genres)
-
     return (
         <div>
             <div>

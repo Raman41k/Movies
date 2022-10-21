@@ -7,7 +7,6 @@ const initialState = {
     genres: [],
     currentGenres: [],
     loading: false,
-    page: 1,
     show: true,
 }
 
@@ -16,7 +15,7 @@ const getAllMovie = createAsyncThunk(
     async (page, {rejectWithValue}) => {
         try {
             const {data} = await movieService.getAll(page);
-            return data.results;
+            return data;
         } catch (e) {
             rejectWithValue(e.response.data)
         }
@@ -49,9 +48,9 @@ const getAllGenres = createAsyncThunk(
 
 const searchByGenre = createAsyncThunk(
     'movieSlice/searchByGenre',
-    async (genre, {rejectWithValue}) => {
+    async ({currentGenres}, {rejectWithValue}) => {
         try {
-            const {data} = await movieService.searchByGenre(genre)
+            const {data} = await movieService.searchByGenre({currentGenres})
             return data;
         } catch (e) {
             rejectWithValue(e.response.data)
@@ -64,18 +63,10 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         nextPage: (state, action) => {
-            if (state.page < 500) state.page += action.payload;
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            if (state.movies.page < 500) state.movies.page += action.payload;
         },
         prevPage: (state, action) => {
-            if (state.page > 1) state.page -= action.payload;
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            if (state.movies.page > 1) state.movies.page -= action.payload;
         },
         show: (state, action) => {
             state.show = action.payload;
@@ -94,7 +85,7 @@ const movieSlice = createSlice({
                 state.loading = true
             })
             .addCase(searchMovie.fulfilled, (state, action) => {
-                state.movies = action.payload?.results;
+                state.movies = action.payload;
                 state.loading = false
             })
             .addCase(searchMovie.pending, (state) => {
@@ -105,7 +96,7 @@ const movieSlice = createSlice({
                 state.loading = false;
             })
             .addCase(searchByGenre.fulfilled, (state, action) => {
-                state.movies = action.payload.results;
+                state.movies = action.payload?.results;
                 state.loading = false;
             })
             .addCase(searchByGenre.pending, (state) => {
