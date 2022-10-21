@@ -5,8 +5,9 @@ import {movieService} from "../../../services";
 const initialState = {
     movies: [],
     genres: [],
-    currentGenres: [],
+    currentGenres: null,
     loading: false,
+    page: 1,
     show: true,
 }
 
@@ -50,7 +51,7 @@ const searchByGenre = createAsyncThunk(
     'movieSlice/searchByGenre',
     async ({currentGenres}, {rejectWithValue}) => {
         try {
-            const {data} = await movieService.searchByGenre({currentGenres})
+            const {data} = await movieService.searchByGenre(currentGenres)
             return data;
         } catch (e) {
             rejectWithValue(e.response.data)
@@ -63,22 +64,23 @@ const movieSlice = createSlice({
     initialState,
     reducers: {
         nextPage: (state, action) => {
-            if (state.movies.page < 500) state.movies.page += action.payload;
+            if (state.page < 500) state.page += action.payload;
         },
         prevPage: (state, action) => {
-            if (state.movies.page > 1) state.movies.page -= action.payload;
+            if (state.page > 1) state.page -= action.payload;
         },
         show: (state, action) => {
             state.show = action.payload;
         },
         selectGenre: (state, action) => {
+            state.currentGenres = [];
             state.currentGenres.push(action.payload);
         },
     },
     extraReducers: builder =>
         builder
             .addCase(getAllMovie.fulfilled, (state, action) => {
-                state.movies = action.payload;
+                state.movies = action.payload.results;
                 state.loading = false
             })
             .addCase(getAllMovie.pending, (state) => {
@@ -96,7 +98,7 @@ const movieSlice = createSlice({
                 state.loading = false;
             })
             .addCase(searchByGenre.fulfilled, (state, action) => {
-                state.movies = action.payload?.results;
+                state.movies = action.payload.results;
                 state.loading = false;
             })
             .addCase(searchByGenre.pending, (state) => {

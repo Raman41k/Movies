@@ -20,9 +20,8 @@ code {
 }
 
 .containerMovie{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   margin: 25px 0 0 0;
 }
 

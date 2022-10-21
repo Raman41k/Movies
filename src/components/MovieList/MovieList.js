@@ -6,25 +6,22 @@ import {movieActions} from "../../redux";
 import {MovieCard} from "../MovieCard/MovieCard";
 import {Pagination} from "../Pagination/Pagination";
 
+
 const MovieList = () => {
 
-    const {movies, loading,currentGenres} = useSelector(state => state.movieReducer);
+    const {movies, loading, currentGenres,page} = useSelector(state => state.movieReducer);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (currentGenres) {
-            dispatch(movieActions.searchByGenre({currentGenres}))
-            console.log(1)
+        if (!currentGenres) {
+            dispatch(movieActions.getAllMovie(page))
         } else {
-            dispatch(movieActions.getAllMovie(movies.page))
-            console.log(2)
+            dispatch(movieActions.searchByGenre({currentGenres}))
         }
-    },[]);
+    }, [page, currentGenres]);
 
-    // useEffect(() => {
-    //         dispatch(movieActions.getAllMovie(movies.page))
-    // },[movies.page]);
+
 
     return (
         <div>
@@ -36,7 +33,7 @@ const MovieList = () => {
                         <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/>
                         </div>
                         :
-                        movies?.results?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
+                        movies?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
                 }
             </div>
         </div>
