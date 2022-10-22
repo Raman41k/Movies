@@ -18,6 +18,7 @@ const MovieCard = ({movie}) => {
     return (
         <Link to={`/movie/${movie.id}`}>
             <div className={"containerMovieCard"}>
+
                 {
                     movie.poster_path ? <img src={photosImages + movie.poster_path} alt={movie.title}/> :
                         <img

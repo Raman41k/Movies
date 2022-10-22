@@ -6,6 +6,7 @@ import {movieActions} from "../../redux";
 import {MovieCard} from "../MovieCard/MovieCard";
 import {Pagination} from "../Pagination/Pagination";
 
+
 const MovieList = () => {
 
     const {movies, loading, currentGenres,page} = useSelector(state => state.movieReducer);
@@ -18,7 +19,7 @@ const MovieList = () => {
         } else {
             dispatch(movieActions.searchByGenre({currentGenres}))
         }
-    }, [page, currentGenres]);
+    }, [page,currentGenres]);
 
     return (
         <div>
@@ -30,7 +31,7 @@ const MovieList = () => {
                         <div className={'loading'}><BarLoader color="#8A2BE2" cssOverride={{}} height={15} width={400}/>
                         </div>
                         :
-                        movies?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
+                        movies?.results?.map(movie => <MovieCard key={movie.id} movie={movie}/>)
                 }
             </div>
         </div>

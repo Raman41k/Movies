@@ -6,18 +6,18 @@ const initialState = {
     movies: [],
     movie: null,
     genres: [],
+    page: 1,
     currentGenres: [],
     loading: true,
-    page: 1,
     show: true,
 }
 
 const getAllMovie = createAsyncThunk(
     'movieSlice/getAllMovie',
-    async (page, {rejectWithValue}) => {
+    async ({page}, {rejectWithValue}) => {
         try {
             const {data} = await movieService.getAll(page);
-            return data;
+            return data.results;
         } catch (e) {
             rejectWithValue(e.response.data)
         }
@@ -41,7 +41,7 @@ const searchMovie = createAsyncThunk(
     async (arg, {rejectWithValue}) => {
         try {
             const {data} = await movieService.searchMovie(arg);
-            return data.results;
+            return data;
         } catch (e) {
             rejectWithValue(e.response.data)
         }
@@ -89,7 +89,7 @@ const movieSlice = createSlice({
             state.currentGenres.push(action.payload);
         },
         deleteGenre: (state, action) => {
-            const index = state.currentGenres.findIndex(genre => genre === action.payload);
+            const index = state.currentGenres.findIndex(genre => genre.id === action.payload);
             state.currentGenres.splice(index, 1)
         }
     },
@@ -117,7 +117,7 @@ const movieSlice = createSlice({
                 state.loading = false;
             })
             .addCase(searchByGenre.fulfilled, (state, action) => {
-                state.movies = action.payload.results;
+                state.movies = action.payload;
                 state.loading = false;
             })
             .addCase(searchByGenre.pending, (state) => {
