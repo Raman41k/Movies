@@ -2,8 +2,7 @@ import {createContext, useState} from "react";
 import {useSelector} from "react-redux";
 import {Route, Routes} from "react-router-dom";
 
-import {Genres, Header, MovieList} from "./components";
-import {MovieInfo} from "./pages";
+import {Genres, Header, MovieInfo, MovieList} from "./components";
 
 export const ThemeContext = createContext(null)
 
@@ -24,13 +23,11 @@ function App() {
                 {
                     show ? <Genres/> : null
                 }
-                <MovieList/>
+                <Routes>
+                    <Route path={'/'} element={<MovieList/>}/>
+                    <Route path={'/movie/:id'} element={<MovieInfo/>}/>
+                </Routes>
             </div>
-
-            <Routes>
-                <Route path={'/movieInfo/:id'} element={<MovieInfo/>}/>
-            </Routes>
-
         </ThemeContext.Provider>
     );
 }

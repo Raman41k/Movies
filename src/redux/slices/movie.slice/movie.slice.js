@@ -4,9 +4,10 @@ import {movieService} from "../../../services";
 
 const initialState = {
     movies: [],
+    movie: null,
     genres: [],
-    currentGenres: null,
-    loading: false,
+    currentGenres: [],
+    loading: true,
     page: 1,
     show: true,
 }
@@ -23,12 +24,24 @@ const getAllMovie = createAsyncThunk(
     }
 );
 
+const getMovie = createAsyncThunk(
+    'movieSlice/getMovie',
+    async (id, {rejectWithValue}) => {
+        try {
+            const {data} = await movieService.getMovie(id);
+            return data;
+        } catch (e) {
+            rejectWithValue(e.response.data)
+        }
+    }
+);
+
 const searchMovie = createAsyncThunk(
     'movieSlice/searchMovie',
     async (arg, {rejectWithValue}) => {
         try {
             const {data} = await movieService.searchMovie(arg);
-            return data;
+            return data.results;
         } catch (e) {
             rejectWithValue(e.response.data)
         }
@@ -73,9 +86,12 @@ const movieSlice = createSlice({
             state.show = action.payload;
         },
         selectGenre: (state, action) => {
-            state.currentGenres = [];
             state.currentGenres.push(action.payload);
         },
+        deleteGenre: (state, action) => {
+            const index = state.currentGenres.findIndex(genre => genre === action.payload);
+            state.currentGenres.splice(index, 1)
+        }
     },
     extraReducers: builder =>
         builder
@@ -85,6 +101,9 @@ const movieSlice = createSlice({
             })
             .addCase(getAllMovie.pending, (state) => {
                 state.loading = true
+            })
+            .addCase(getMovie.fulfilled, (state, action) => {
+                state.movie = action.payload;
             })
             .addCase(searchMovie.fulfilled, (state, action) => {
                 state.movies = action.payload;
@@ -106,7 +125,7 @@ const movieSlice = createSlice({
             })
 });
 
-const {reducer: movieReducer, actions: {nextPage, prevPage, show,selectGenre}} = movieSlice;
+const {reducer: movieReducer, actions: {nextPage, prevPage, show, selectGenre, deleteGenre}} = movieSlice;
 
 const movieActions = {
     getAllMovie,
@@ -116,7 +135,9 @@ const movieActions = {
     prevPage,
     show,
     searchByGenre,
-    selectGenre
+    selectGenre,
+    getMovie,
+    deleteGenre
 }
 
 export {

@@ -1,10 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {movieActions} from "../../redux";
 
+import '../../index.css';
+
 const Genres = () => {
 
-    const {genres} = useSelector(state => state.movieReducer);
+    const ref = useRef(null);
+
+    const {genres,currentGenres} = useSelector(state => state.movieReducer);
 
     const dispatch = useDispatch();
 
@@ -12,17 +16,30 @@ const Genres = () => {
         dispatch(movieActions.getAllGenres())
     }, [])
 
+    const handleSubmit = (id) => {
+        if (ref.current.checked) {
+            console.log('ref.current.checked')
+            dispatch(movieActions.selectGenre(id))
+        } else {
+            console.log('ref.current.unchecked')
+            dispatch(movieActions.deleteGenre(id))
+        }
+    }
+
+    console.log(currentGenres)
+
     return (
         <div>
-            <div>
+            <div className={"genre_select"}>
                 {
-                    genres?.genres?.map(genre =>  <div key={genre.id}>
-                        <label>
+                    genres?.genres?.map(genre => <div key={genre.id}>
+                        <label className={"checkbox-el"}>
                             <input
                                 type="checkbox"
                                 value={genre.name}
                                 name={genre.name}
-                                onClick={()=> dispatch(movieActions.selectGenre(genre.id))}
+                                ref={ref}
+                                onClick={() => handleSubmit(genre.id)}
                             />
                             {genre.name}
                         </label>
@@ -30,13 +47,11 @@ const Genres = () => {
                 }
 
             </div>
+            <div className={'genre_select_btn'} >
                 <button onClick={() => dispatch(movieActions.show(false))}>Hide</button>
+            </div>
         </div>
-);
+    )
 };
 
-export
-    {
-        Genres
-    }
-;
+export {Genres};

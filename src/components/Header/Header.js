@@ -14,15 +14,16 @@ const Header = ({toggleTheme}) => {
     const dispatch = useDispatch();
 
     return (
-        <div className={'wrapper'}>
+        <div>
+            <div className={'wrapper'}>
+                <div>
+                    <FontAwesomeIcon className={'icon'} icon={faLightbulb} onClick={toggleTheme}></FontAwesomeIcon>
+                </div>
 
-            <div>
-                <FontAwesomeIcon className={'icon'} icon={faLightbulb} onClick={toggleTheme}></FontAwesomeIcon>
+                <Search/>
+
+                <button onClick={() => dispatch(movieActions.show(!show))}>Genres</button>
             </div>
-
-            <Search/>
-
-            <button onClick={() => dispatch(movieActions.show(!show))}>Genres</button>
 
         </div>
     );

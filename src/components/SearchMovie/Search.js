@@ -5,7 +5,7 @@ import {movieActions} from "../../redux";
 
 const Search = () => {
 
-    const [query, setQuery,movies] = useState('');
+    const [query, setQuery] = useState('');
 
     const dispatch = useDispatch();
 

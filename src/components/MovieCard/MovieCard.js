@@ -16,7 +16,7 @@ const MovieCard = ({movie}) => {
     }
 
     return (
-        <Link to={'/movieInfo'}>
+        <Link to={`/movie/${movie.id}`}>
             <div className={"containerMovieCard"}>
                 {
                     movie.poster_path ? <img src={photosImages + movie.poster_path} alt={movie.title}/> :
@@ -36,7 +36,6 @@ const MovieCard = ({movie}) => {
                 <Rating rating={movie.vote_average}/>
             </div>
         </Link>
-
     );
 };
 

@@ -6,7 +6,6 @@ import {movieActions} from "../../redux";
 import {MovieCard} from "../MovieCard/MovieCard";
 import {Pagination} from "../Pagination/Pagination";
 
-
 const MovieList = () => {
 
     const {movies, loading, currentGenres,page} = useSelector(state => state.movieReducer);
@@ -20,8 +19,6 @@ const MovieList = () => {
             dispatch(movieActions.searchByGenre({currentGenres}))
         }
     }, [page, currentGenres]);
-
-
 
     return (
         <div>
