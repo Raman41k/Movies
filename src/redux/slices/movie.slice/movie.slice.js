@@ -7,17 +7,17 @@ const initialState = {
     movie: null,
     genres: [],
     page: 1,
-    currentGenres: [],
+    currentGenres: null,
     loading: true,
     show: true,
 }
 
 const getAllMovie = createAsyncThunk(
     'movieSlice/getAllMovie',
-    async ({page}, {rejectWithValue}) => {
+    async (page, {rejectWithValue}) => {
         try {
             const {data} = await movieService.getAll(page);
-            return data.results;
+            return data;
         } catch (e) {
             rejectWithValue(e.response.data)
         }
@@ -86,6 +86,7 @@ const movieSlice = createSlice({
             state.show = action.payload;
         },
         selectGenre: (state, action) => {
+            state.currentGenres = [];
             state.currentGenres.push(action.payload);
         },
         deleteGenre: (state, action) => {
@@ -96,8 +97,8 @@ const movieSlice = createSlice({
     extraReducers: builder =>
         builder
             .addCase(getAllMovie.fulfilled, (state, action) => {
-                state.movies = action.payload.results;
-                state.loading = false
+                state.movies = action.payload;
+                state.loading = false;
             })
             .addCase(getAllMovie.pending, (state) => {
                 state.loading = true
