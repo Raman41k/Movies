@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {movieActions} from "../../redux";
@@ -6,9 +6,7 @@ import '../../index.css';
 
 const Genres = () => {
 
-    const ref = useRef(null);
-
-    const {genres} = useSelector(state => state.movieReducer);
+    const {genres,currentGenres} = useSelector(state => state.movieReducer);
 
     const dispatch = useDispatch();
 
@@ -17,9 +15,9 @@ const Genres = () => {
     }, [])
 
     const handleSubmit = (id) => {
-        if (ref.current.checked) {
-            dispatch(movieActions.selectGenre(id))
-        }else dispatch(movieActions.deleteGenre(id))
+        if (currentGenres?.includes(id)) {
+            dispatch(movieActions.deleteGenre(id))
+        } else  dispatch(movieActions.selectGenre(id))
     }
 
     return (
@@ -32,14 +30,12 @@ const Genres = () => {
                                 type="checkbox"
                                 value={genre.name}
                                 name={genre.name}
-                                ref={ref}
                                 onClick={() => handleSubmit(genre.id)}
                             />
                             {genre.name}
                         </label>
                     </div>)
                 }
-
             </div>
             <div className={'genre_select_btn'} >
                 <button onClick={() => dispatch(movieActions.show(false))}>Hide</button>

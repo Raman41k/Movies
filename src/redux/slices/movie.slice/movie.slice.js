@@ -7,7 +7,7 @@ const initialState = {
     movie: null,
     genres: [],
     page: 1,
-    currentGenres: null,
+    currentGenres: [],
     loading: true,
     show: true,
 }
@@ -86,7 +86,6 @@ const movieSlice = createSlice({
             state.show = action.payload;
         },
         selectGenre: (state, action) => {
-            state.currentGenres = [];
             state.currentGenres.push(action.payload);
         },
         deleteGenre: (state, action) => {
